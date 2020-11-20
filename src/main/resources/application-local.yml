@@ -16,6 +16,10 @@ spring:
     password:
     driver-class-name: org.h2.Driver
 
+  jwt:
+    secret: df1uu9g9-rinut
+
+
 logging:
   level:
     root: info

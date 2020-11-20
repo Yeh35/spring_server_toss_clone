@@ -27,7 +27,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
 
     // querydsl
     implementation("com.querydsl:querydsl-jpa:4.2.1")
@@ -44,9 +45,6 @@ dependencies {
     // API 설명서
     implementation ("io.springfox:springfox-swagger2:2.9.2")
     implementation ("io.springfox:springfox-swagger-ui:2.9.2")
-
-    // 다국적 메시지 기능
-    implementation("net.rakugakibox.util:yaml-resource-bundle:1.1")
 }
 
 // querydsl 적용
