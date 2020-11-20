@@ -3,6 +3,8 @@ package me.sangoh.clone.toss.spring_server_toss_clone.domain.member.domain
 import me.sangoh.clone.toss.spring_server_toss_clone.domain.member.error.AbnormalDeviceException
 import me.sangoh.clone.toss.spring_server_toss_clone.domain.member.error.NotWakeupTooLongException
 import me.sangoh.clone.toss.spring_server_toss_clone.global.common.base.BaseEntity
+import me.sangoh.clone.toss.spring_server_toss_clone.global.utill.USecureRandomGenerator
+import java.security.SecureRandom
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -10,15 +12,19 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "device")
-class Device(
-    uuid: String
-): BaseEntity() {
+class Device : BaseEntity {
+
+    constructor(uuid: String, password: String) : super() {
+        this.uuid = uuid
+        this.passwordSalt = USecureRandomGenerator.generate(32)
+        this.password = password + passwordSalt
+    }
 
     /**
      * Android ID or Apple UUID or Mac address
      */
     @Column(nullable = false, unique = false, length = 32)
-    val uuid: String = uuid
+    val uuid: String
 
     @Column(nullable = false, unique = false)
     var member: Member? = null
@@ -32,9 +38,12 @@ class Device(
     var abnormal: Boolean = false
         private set
 
-    @Column(nullable = false, unique = false)
-    var wakeupAt: LocalDateTime = LocalDateTime.now()
+    @Column(nullable = false, unique = false, length = 32)
+    var password: String
         private set
+
+    @Column(nullable = false, unique = false, length = 32)
+    private var passwordSalt: String
 
     fun mapping(member: Member) {
         if (this.member == member) {
@@ -63,11 +72,6 @@ class Device(
     }
 
     fun wakeup() {
-        if (LocalDateTime.now().minusDays(14).isBefore(wakeupAt)) {
-            throw NotWakeupTooLongException.of(this)
-        }
-
-        wakeupAt = LocalDateTime.now()
     }
 
 }

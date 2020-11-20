@@ -22,7 +22,7 @@ class DeviceSignApi(
         @RequestBody wakeupDto: DeviceSignupDto
     ) {
 
-        deviceSignService.(wakeupDto)
+//        deviceSignService.(wakeupDto)
 
     }
 
