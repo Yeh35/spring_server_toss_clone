@@ -14,67 +14,68 @@ import java.util.stream.Collectors
 
 class ErrorResponse {
 
-    private val message: String
-    private val status: HttpStatus
-    private val errors: List<FieldError>
-    private val code: String
-
-    private constructor(code: ErrorCode, errors: List<FieldError>) {
-        message = code.getMessage()
-        status = code.getStatus()
-        this.errors = errors
-        this.code = code.getCode()
-    }
-
-    private constructor(code: ErrorCode) {
-        message = code.getMessage()
-        status = code.getStatus()
-        this.code = code.getCode()
-        errors = ArrayList()
-    }
-
-    fun of(code: ErrorCode, bindingResult: BindingResult): ErrorResponse? {
-        return ErrorResponse(code, FieldError.of(bindingResult))
-    }
-
-    fun of(code: ErrorCode): ErrorResponse? {
-        return ErrorResponse(code)
-    }
-
-    fun of(code: ErrorCode, errors: List<FieldError>): ErrorResponse? {
-        return ErrorResponse(code, errors)
-    }
-
-    fun of(e: MethodArgumentTypeMismatchException): ErrorResponse? {
-        val value = if (e.value == null) "" else e.value.toString()
-        val errors = FieldError.of(e.name, value, e.errorCode)
-        return ErrorResponse(CommonErrorCode.INVALID_TYPE_VALUE, errors)
-    }
-
-    class FieldError private constructor(
-        private val field: String,
-        private val value: String,
-        private val reason: String?
-    ) {
-        companion object {
-            fun of(field: String, value: String, reason: String?): List<FieldError> {
-                val fieldErrors: MutableList<FieldError> = ArrayList()
-                fieldErrors.add(FieldError(field, value, reason))
-                return fieldErrors
-            }
-
-            private fun of(bindingResult: BindingResult): List<FieldError> {
-                val fieldErrors = bindingResult.fieldErrors
-                return fieldErrors.stream()
-                    .map { error: org.springframework.validation.FieldError ->
-                        FieldError(
-                            error.field,
-                            if (error.rejectedValue == null) "" else error.rejectedValue.toString(),
-                            error.defaultMessage
-                        )
-                    }
-                    .collect(Collectors.toList())
-            }
-        }
-    }
+//    private val message: String
+//    private val status: HttpStatus
+//    private val errors: List<FieldError>
+//    private val code: String
+//
+//    private constructor(code: ErrorCode, errors: List<FieldError>) {
+//
+//        this.message = code.getMessage()
+//        this.status = code.getStatus()
+//        this.errors = errors
+//        this.code = code.getCode()
+//    }
+//
+//    private constructor(code: ErrorCode) {
+//        this.message = code.getMessage()
+//        this.status = code.getStatus()
+//        this.code = code.getCode()
+//        this.errors = ArrayList()
+//    }
+//
+//    fun of(code: ErrorCode, bindingResult: BindingResult): ErrorResponse? {
+//        return ErrorResponse(code, FieldError.of(bindingResult))
+//    }
+//
+//    fun of(code: ErrorCode): ErrorResponse? {
+//        return ErrorResponse(code)
+//    }
+//
+//    fun of(code: ErrorCode, errors: List<FieldError>): ErrorResponse? {
+//        return ErrorResponse(code, errors)
+//    }
+//
+//    fun of(e: MethodArgumentTypeMismatchException): ErrorResponse? {
+//        val value = if (e.value == null) "" else e.value.toString()
+//        val errors = FieldError.of(e.name, value, e.errorCode)
+//        return ErrorResponse(CommonErrorCode.INVALID_TYPE_VALUE, errors)
+//    }
+//
+//    class FieldError private constructor(
+//        private val field: String,
+//        private val value: String,
+//        private val reason: String?
+//    ) {
+//        companion object {
+//            fun of(field: String, value: String, reason: String?): List<FieldError> {
+//                val fieldErrors: MutableList<FieldError> = ArrayList()
+//                fieldErrors.add(FieldError(field, value, reason))
+//                return fieldErrors
+//            }
+//
+//            private fun of(bindingResult: BindingResult): List<FieldError> {
+//                val fieldErrors = bindingResult.fieldErrors
+//                return fieldErrors.stream()
+//                    .map { error: org.springframework.validation.FieldError ->
+//                        FieldError(
+//                            error.field,
+//                            if (error.rejectedValue == null) "" else error.rejectedValue.toString(),
+//                            error.defaultMessage
+//                        )
+//                    }
+//                    .collect(Collectors.toList())
+//            }
+//        }
+//    }
 }
