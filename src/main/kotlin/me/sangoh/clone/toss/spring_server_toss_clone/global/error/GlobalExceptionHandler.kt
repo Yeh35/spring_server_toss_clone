@@ -1,24 +1,12 @@
 package me.sangoh.clone.toss.spring_server_toss_clone.global.error
 
-import me.sangoh.clone.toss.spring_server_toss_clone.global.error.exception.BusinessException
-import me.sangoh.clone.toss.spring_server_toss_clone.global.utill.Log
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.validation.BindException
-import org.springframework.web.HttpRequestMethodNotSupportedException
-import org.springframework.web.bind.MethodArgumentNotValidException
+import me.sangoh.clone.toss.spring_server_toss_clone.global.utill.ULog
 import org.springframework.web.bind.annotation.ControllerAdvice
-import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.context.request.WebRequest
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
-import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver
-import java.nio.file.AccessDeniedException
 
 
 @ControllerAdvice
 class GlobalExceptionHandler {
-    companion object : Log
+    companion object : ULog
 
 //    /**
 //     * javax.validation.Valid or @Validated 으로 binding error 발생시 발생한다.

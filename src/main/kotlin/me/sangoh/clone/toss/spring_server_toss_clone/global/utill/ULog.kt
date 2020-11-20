@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
  * companion object : Log
  * Log.
  */
-interface Log {
+interface ULog {
 
     val log: Logger
         get() {

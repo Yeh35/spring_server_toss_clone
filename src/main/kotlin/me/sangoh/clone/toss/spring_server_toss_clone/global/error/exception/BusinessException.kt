@@ -11,14 +11,14 @@ abstract class BusinessException : RuntimeException {
     /**
      * message는 로그용으로 사용됨으로 개발자가 좀 더 다양한 메시지를 남길 수 있도록 열어두었다.
      */
-    constructor(message: String?, errorCode: ErrorCode) : super(message) {
+    constructor(message: String?, errorCode: ErrorCode, vararg args: Any?) : super(message) {
         this.errorCode = errorCode
     }
 
     /**
      * Exception Message는 로그용으로 나가게 된다.
      */
-    constructor(errorCode: ErrorCode) : super(errorCode.getMessageKo()) {
+    constructor(errorCode: ErrorCode, vararg args: Any?) : super(errorCode.getMessageKo()) {
         this.errorCode = errorCode
     }
 }
