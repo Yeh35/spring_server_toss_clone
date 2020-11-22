@@ -1,9 +1,6 @@
 package me.sangoh.clone.toss.spring_server_toss_clone.domain.member.domain
 
-import me.sangoh.clone.toss.spring_server_toss_clone.domain.model.Email
-import me.sangoh.clone.toss.spring_server_toss_clone.domain.model.Gender
-import me.sangoh.clone.toss.spring_server_toss_clone.domain.model.Name
-import me.sangoh.clone.toss.spring_server_toss_clone.domain.model.PhoneNumber
+import me.sangoh.clone.toss.spring_server_toss_clone.domain.model.*
 import me.sangoh.clone.toss.spring_server_toss_clone.global.common.base.BaseEntity
 import java.time.LocalDate
 import javax.persistence.*
@@ -11,20 +8,15 @@ import javax.persistence.*
 @Entity
 @Table(name = "member")
 class Member(
-    email: Email,
+    roles: List<Role> = listOf(Role.USER),
     name: Name,
     phoneNumber: PhoneNumber,
     gender: Gender,
     birthday: LocalDate
 ): BaseEntity() {
 
-    @Embedded
-    @AttributeOverride(
-        name = "value",
-        column = Column(name = "email", nullable = false, unique = true, updatable = false, length = 50)
-    )
-    var email: Email = email
-        private set
+    @ElementCollection(fetch = FetchType.EAGER)
+    val roles: List<Role> = roles
 
     @Embedded
     @AttributeOverrides(
@@ -53,21 +45,27 @@ class Member(
         private set
 
     @Column(nullable = false, unique = false, length = 32)
-    var payPassword: String = ""
-    private set
+    private var payPassword: String = ""
 
     @Column(nullable = false, unique = false, length = 32)
     private var payPasswordSalt: String = ""
 
     // 맞춤형 서비스 안내 동의
     @Column(unique = false, nullable = false)
-    private var termsCustomizedService: Boolean = false
+    var termsCustomizedService: Boolean = false
+        private set
 
     //마케팅 정보 수신 동의
     @Column(unique = false, nullable = false)
-    private var termsMarketingInformation: Boolean = false
+    var termsMarketingInformation: Boolean = false
+        private set
 
     fun updateProfile(name: Name) {
         this.name = name
+    }
+
+    fun confirmTerms(termsCustomizedService: Boolean, termsMarketingInformation: Boolean) {
+        this.termsCustomizedService = termsCustomizedService
+        this.termsMarketingInformation = termsMarketingInformation
     }
 }

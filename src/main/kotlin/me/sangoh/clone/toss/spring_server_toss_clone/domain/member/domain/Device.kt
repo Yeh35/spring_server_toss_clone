@@ -4,6 +4,8 @@ import me.sangoh.clone.toss.spring_server_toss_clone.domain.member.error.Abnorma
 import me.sangoh.clone.toss.spring_server_toss_clone.domain.member.error.NotWakeupTooLongException
 import me.sangoh.clone.toss.spring_server_toss_clone.global.common.base.BaseEntity
 import me.sangoh.clone.toss.spring_server_toss_clone.global.utill.USecureRandomGenerator
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 import java.security.SecureRandom
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -12,7 +14,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "device")
-class Device : BaseEntity {
+class Device : BaseEntity, UserDetails {
 
     constructor(uuid: String, password: String) : super() {
         this.uuid = uuid
@@ -39,8 +41,7 @@ class Device : BaseEntity {
         private set
 
     @Column(nullable = false, unique = false, length = 32)
-    var password: String
-        private set
+    private var password: String
 
     @Column(nullable = false, unique = false, length = 32)
     private var passwordSalt: String
@@ -72,6 +73,34 @@ class Device : BaseEntity {
     }
 
     fun wakeup() {
+    }
+
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getPassword(): String {
+        return password
+    }
+
+    override fun getUsername(): String {
+        TODO("Not yet implemented")
+    }
+
+    override fun isAccountNonExpired(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun isAccountNonLocked(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun isCredentialsNonExpired(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun isEnabled(): Boolean {
+        TODO("Not yet implemented")
     }
 
 }
