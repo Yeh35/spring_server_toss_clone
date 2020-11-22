@@ -8,25 +8,22 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.security.SecureRandom
 import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Table
 
 @Entity
 @Table(name = "device")
-class Device : BaseEntity, UserDetails {
-
-    constructor(uuid: String, password: String) : super() {
-        this.uuid = uuid
-        this.passwordSalt = USecureRandomGenerator.generate(32)
-        this.password = password + passwordSalt
-    }
+class Device(
+    uuid: String
+) : BaseEntity(), UserDetails {
 
     /**
      * Android ID or Apple UUID or Mac address
      */
     @Column(nullable = false, unique = false, length = 32)
-    val uuid: String
+    val uuid: String = uuid
 
     @Column(nullable = false, unique = false)
     var member: Member? = null
@@ -40,11 +37,8 @@ class Device : BaseEntity, UserDetails {
     var abnormal: Boolean = false
         private set
 
-    @Column(nullable = false, unique = false, length = 32)
-    private var password: String
-
-    @Column(nullable = false, unique = false, length = 32)
-    private var passwordSalt: String
+    @Column(nullable = false, unique = false)
+    private var password: UUID = UUID.randomUUID()
 
     fun mapping(member: Member) {
         if (this.member == member) {
@@ -72,15 +66,12 @@ class Device : BaseEntity, UserDetails {
         }
     }
 
-    fun wakeup() {
-    }
-
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         TODO("Not yet implemented")
     }
 
     override fun getPassword(): String {
-        return password
+        return password.toString()
     }
 
     override fun getUsername(): String {
