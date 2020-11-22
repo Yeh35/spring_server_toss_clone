@@ -7,10 +7,10 @@ import javax.validation.constraints.NotEmpty
 @Embeddable
 class Name(
     @NotEmpty
-    @Column(name = "last_name", length = 50)
+    @Column(name = "first_name", length = 50)
     val first: String,
 
-    @Column(name = "last_name", length = 50)
+    @Column(name = "middle_name", length = 50)
     val middle: String = "",
 
     @NotEmpty

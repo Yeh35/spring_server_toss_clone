@@ -45,6 +45,7 @@ dependencies {
     // API 설명서
     implementation ("io.springfox:springfox-swagger2:2.9.2")
     implementation ("io.springfox:springfox-swagger-ui:2.9.2")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 // querydsl 적용
@@ -61,4 +62,12 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "11"
     }
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
 }
